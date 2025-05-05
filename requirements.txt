@@ -1,0 +1,10 @@
+torch==2.0.0
+torchvision==0.15.1
+torchaudio==2.0.1
+tensorflow
+tqdm
+opencv-python
+opencv-python>=4.5.0
+mtcnn>=0.1.0
+huggingface_hub>=0.10.0
+pydensecrf
