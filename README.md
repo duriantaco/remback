@@ -3,7 +3,14 @@
 A Python package for removing backgrounds from profile pictures using a fine-tuned Segment Anything Model (SAM).
 
 ## Installation
+
+### Installation of package
 `pip install remback`
+
+### Manual retrieval of checkpoint
+`https://huggingface.co/duriantaco/remback/tree/main`
+
+Note: It should automatically download it, but if you do run into a `SSL` error, just manually download it from the path above.
 
 ## Usage
 
@@ -12,11 +19,19 @@ A Python package for removing backgrounds from profile pictures using a fine-tun
 Remove the background from an image:
 
 ```bash
-remback --image_path /path/to/input.jpg --output_path /path/to/output.jpg
+remback --image_path /path/to/input.jpg --output_path /path/to/output.jpg --checkpoint /path/to/checkpoint.pth
 ```
 
-`--image_path`: Path to the input image (required).
-`--output_path`: Path to save the output image (default: output.jpg).
+* `--image_path`: Path to the input image (required).
+* `--output_path`: Path to save the output image (default: output.jpg).
+
+#### CLI flags
+
+| Flag            | Default | Meaning                                     |
+|-----------------|---------|---------------------------------------------|
+| `--sharp`       | 0       | Unsharp‑mask strength (0 = off)             |
+| `--contrast`    | 1.0     | Multiply pixel values after cut‑out         |
+| `--debug_mask`  | —       | Path to save the binary mask for inspection |
 
 ### Python API
 
@@ -29,25 +44,54 @@ remover = BackgroundRemover()
 remover.remove_background("input.jpg", "output.jpg")
 ```
 
-## Fine-Tuning Details
+## Fine‑Tuning
 
-Remback uses SAM for face-specific background removal through fine-tuning:
+Remback starts from Meta’s `sam_vit_b` checkpoint and fine‑tunes it **exclusively for portrait / upper‑body shots**.
 
-* Model Architecture: The last two blocks of SAM's image encoder were unfrozen, along with the prompt encoder and mask decoder, specifically for face segmentation
+| Component                | Status                |
+|--------------------------|-----------------------|
+| Image encoder blocks 0‑8 | **Frozen**            |
+| Image encoder blocks 9‑11| **Trainable**         |
+| Prompt encoder           | **Trainable**         |
+| Mask decoder             | **Trainable**         |
 
-* Loss Functions: A combination of binary cross-entropy (35%), Dice loss (35%), and a custom BoundaryLoss (30%) were used to balance overall mask accuracy and edge precision
+* **Loss mix**
 
-* Training Process: Trained with the AdamW optimizer, mixed precision, and early stopping based on validation mIoU.
+| Loss                | Weight |
+|---------------------|-------:|
+| Binary‑cross‑entropy| 0.35   |
+| Dice                | 0.35   |
+| BoundaryLoss*       | 0.30   |
 
-## Post-Processing
+\* `BoundaryLoss` drives sharper transitions by comparing Sobel edges of the logits and ground truth.
 
-The raw segmentation mask is refined through:
+* **Optimiser / schedule**
 
-* Morphological operations to remove noise.
+* AdamW (`lr 3 e‑5`, `weight‑decay 1 e‑4`)
+* mixed‑precision + GradScaler
+* early‑stop on val mIoU (patience = 2 epochs)
 
-* Guided filtering for edge alignment.
+## Post‑Processing Pipeline
 
-* Distance transform and feathering for smoother alpha mask (although still can be improved more).
+1. **Prompt box expansion**  
+   MTCNN face box is padded  
+   `+120 %` left/right, `+5 %` up, `+20 %` down → hair & shoulders included.
+
+2. **Raw mask threshold**  
+   `logits > 0.10` → binary mask.
+
+3. **Largest‑component keep**  
+   Removes spurious blobs outside the subject.
+
+4. **Morphology**  
+   * open (5×5 ellipse, 1 iter) – clears pepper noise  
+   * close (5×5 ellipse, 1 iter) – seals pin‑holes
+
+5. **Alpha matt­ing**  
+   Gaussian blur (σ ≈ 0.5) then apply:  
+   ```python
+   res[alpha < 0.40] = 255
+   ```
 
 ## Comparison to Other Tools
 
@@ -58,8 +102,8 @@ Unlike general-purpose tools like rembg, Remback is optimized for images with fa
 
 ### Requirements
 
-Python 3.8+
-Dependencies (installed automatically): torch, opencv-python, numpy, mtcnn, segment-anything.
+1. Python 3.8+
+2. Dependencies (installed automatically): torch, opencv-python, numpy, mtcnn, segment-anything.
 
 ## Benchmark Results
 
@@ -84,4 +128,34 @@ We tested Remback against other methods. Here’s the table with mIoU and Accura
 
 The fine-tuned model is included in the package.
 If no face is detected, it will raise an error.
+
+## Acknowledgments & Licenses
+
+| Dependency | License | Notes |
+|------------|---------|-------|
+| **Segment Anything (SAM)** © Meta AI | Apache 2.0 | https://github.com/facebookresearch/segment-anything |
+| **MTCNN face detector** | MIT | https://github.com/ipazc/mtcnn |
+| **PyTorch** | BSD‑style | https://pytorch.org |
+| **OpenCV** | Apache 2.0 | https://opencv.org |
+
+Remback only redistributes weights you fine‑tuned yourself; the original SAM
+checkpoint is downloaded from the official Meta repository under Apache 2.0.
+
+## To Do
+
+- [] Parameterise thresholds (mask_thresh, alpha_cut) via CLI/‑‑config
+- [] Batch mode: accept a folder / glob, stream results
+- [] Dynamic quant‑int8 checkpoint & flag --cpu_fast
+- [] ONNX export script (remback.export_onnx) + doc
+- [] Add hair‑refiner head (1‑layer UNet on top of SAM logits)
+
+## Citation
+```
+@misc{remback2025,
+  title  = {Remback: Face‑aware background removal with a fine‑tuned SAM},
+  author = {oha},
+  year   = {2025},
+  note   = {https://pypi.org/project/remback}
+}
+```
 

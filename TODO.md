@@ -1,0 +1,5 @@
+- [] Parameterise thresholds (mask_thresh, alpha_cut) via CLI/‑‑config
+- [] Batch mode: accept a folder / glob, stream results
+- [] Dynamic quant‑int8 checkpoint & flag --cpu_fast
+- [] ONNX export script (remback.export_onnx) + doc
+- [] Add hair‑refiner head (1‑layer UNet on top of SAM logits)

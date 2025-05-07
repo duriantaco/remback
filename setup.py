@@ -2,13 +2,17 @@ from setuptools import setup, find_packages
 
 setup(
     name="remback",
-    version="0.1.0",
+    version="0.0.1",
     packages=find_packages(),
     install_requires=[
         "torch>=2.0.0",
         "opencv-python>=4.5.0",
         "mtcnn>=0.1.0",
         "huggingface_hub>=0.10.0",
+        "tqdm>=4.62.0",
+        "torchvision>=0.15.1",
+        "tensorflow>=2.19.0",
+        "numpy>=1.26.4"
     ],
     author="oha",
     author_email="aaronoh2015@gmail.com",
