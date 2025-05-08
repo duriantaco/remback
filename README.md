@@ -18,7 +18,7 @@ A Python package for removing backgrounds from profile pictures using a fine-tun
 ### Manual retrieval of checkpoint
 `https://huggingface.co/duriantaco/remback/tree/main`
 
-Note: It should automatically download it, but if you do run into a `SSL` error, just manually download it from the path above.
+Note: It should automatically download the checkpoint when you run this `remback --image_path /path/to/input.jpg --output_path /path/to/output.jpg`, but if you do run into a `SSL` error, just manually download it from the path above.
 
 ## Usage
 
