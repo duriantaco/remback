@@ -2,6 +2,14 @@
 
 A Python package for removing backgrounds from profile pictures using a fine-tuned Segment Anything Model (SAM).
 
+### Requirements
+
+1. Python 3.9 - 3.11
+2. Dependencies (installed automatically): torch, opencv-python, numpy, mtcnn, segment-anything.
+
+**Note**: Do make sure your environment is using `python 3.9 to 3.11`. You can set up your env as such, `python3.11 -m venv venv311`.
+`Python 3.13` will **NOT** work because tensorflow does not support it yet. 
+
 ## Installation
 
 ### Installation of package
@@ -100,10 +108,7 @@ Unlike general-purpose tools like rembg, Remback is optimized for images with fa
 1. Uses `MTCNN` for face detection to guide segmentation.
 2. Employs custom `BoundaryLoss` for sharper edges around complex areas like stray hair etc.
 
-### Requirements
 
-1. Python 3.8+
-2. Dependencies (installed automatically): torch, opencv-python, numpy, mtcnn, segment-anything.
 
 ## Benchmark Results
 

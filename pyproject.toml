@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "remback"
+version = "0.0.2"
+description = "Face‑aware background removal with a fine‑tuned SAM."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name="oha", email="aaronoh2015@gmail.com"}]
+requires-python = ">=3.10,<3.12"
+dependencies = [
+  "torch>=2.0",
+  "opencv-python>=4.8",
+  "numpy>=1.26.4",
+  "mtcnn>=1.0.0",
+  "tensorflow>=2.19.0",
+  "torchvision>=0.15.1",
+  "torchaudio>=2.0.1",
+  "tqdm>=4.65.2",
+  "huggingface_hub>=0.10.0"
+]
+
+[project.scripts]
+remback = "remback.cli:main"

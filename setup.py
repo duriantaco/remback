@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="remback",
-    version="0.0.1",
+    version="0.0.2",
     packages=find_packages(),
     install_requires=[
         "torch>=2.0.0",
@@ -22,10 +22,12 @@ setup(
     url="https://github.com/duriantaco/remback",
     classifiers=[
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: Apache License 2.0",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.10,<3.12",
     entry_points={
         "console_scripts": [
             "remback=remback.cli:main",

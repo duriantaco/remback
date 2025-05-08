@@ -1,10 +1,9 @@
 torch==2.0.0
 torchvision==0.15.1
 torchaudio==2.0.1
-tensorflow
-tqdm
-opencv-python
+tensorflow==2.19.0
+tqdm==4.65.2
 opencv-python>=4.5.0
-mtcnn>=0.1.0
+mtcnn>=1.0.0
+numpy>=1.26.4
 huggingface_hub>=0.10.0
-pydensecrf

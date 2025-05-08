@@ -1,5 +1,13 @@
 import argparse
 from remback.remover import BackgroundRemover
+import sys
+import logging
+
+logger = logging.getLogger(__name__)
+
+if not (3, 10) <= sys.version_info[:2] < (3, 12):
+    logger.error("This script requires Python 3.10 or 3.11.")
+    sys.exit(1)
 
 def main():
     parser = argparse.ArgumentParser(description="Remove background from images")
