@@ -163,5 +163,3 @@ checkpoint is downloaded from the official Meta repository under Apache 2.0.
   note   = {https://pypi.org/project/remback}
 }
 ```
-
-.
