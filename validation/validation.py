@@ -13,10 +13,10 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from remback.remover import BackgroundRemover
 
-VAL_IMAGES_DIR = "/home/aaron_monarch/remback/data/val/images"
-VAL_MASKS_DIR = "/home/aaron_monarch/remback/data/val/masks"
-ORIGINAL_CHECKPOINT = "/home/aaron_monarch/remback/checkpoints/sam_vit_b_01ec64.pth"
-FINE_TUNED_CHECKPOINT = "/home/aaron_monarch/remback/train/checkpoints/remback_v4.pth"
+VAL_IMAGES_DIR = "/remback/data/val/images"
+VAL_MASKS_DIR = "/remback/data/val/masks"
+ORIGINAL_CHECKPOINT = "/remback/checkpoints/sam_vit_b_01ec64.pth"
+FINE_TUNED_CHECKPOINT = "/remback/train/checkpoints/remback_v4.pth"
 
 remover_fine_tuned = BackgroundRemover(FINE_TUNED_CHECKPOINT)
 remover_original = BackgroundRemover(ORIGINAL_CHECKPOINT)

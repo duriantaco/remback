@@ -64,9 +64,9 @@ def combine_pairs(test_dir,
 # ----------------------------------------------------------------------
 if __name__ == "__main__":
     combine_pairs(
-        test_dir   = "/home/aaron_monarch/remback/assets/test_images",
-        result_dir = "/home/aaron_monarch/remback/assets/output_results",
-        output_path= "/home/aaron_monarch/remback/assets/combined_images/combined_grid.jpg",
+        test_dir   = "/remback/assets/test_images",
+        result_dir = "/remback/assets/output_results",
+        output_path= "/remback/assets/combined_images/combined_grid.jpg",
         num_pairs  = 12,
         cols       = 3
     )

@@ -25,7 +25,7 @@ def merge_masks_for_images(image_dir, mask_base_dir, output_dir):
 
 train_image_dir = 'data/train/images'
 val_image_dir = 'data/val/images'
-mask_base_dir = '/home/aaron_monarch/CelebAMask-HQ/CelebAMask-HQ/CelebAMask-HQ-mask-anno'
+mask_base_dir = '/CelebAMask-HQ/CelebAMask-HQ/CelebAMask-HQ-mask-anno'
 train_output_dir = 'data/train/masks'
 val_output_dir = 'data/val/masks'
 

@@ -21,7 +21,7 @@ def split_dataset(image_dir, train_dir, val_dir, train_ratio=0.8):
     print(f"Copied {len(val_images)} images to {val_dir}")
 
 split_dataset(
-    image_dir= '/home/aaron_monarch/CelebAMask-HQ/CelebAMask-HQ/CelebA-HQ-img/',
+    image_dir= '/CelebAMask-HQ/CelebAMask-HQ/CelebA-HQ-img/',
     train_dir='data/train/images',
     val_dir='data/val/images'
 )
